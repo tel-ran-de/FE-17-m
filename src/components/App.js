@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import personsInitial, {setPersonsToStorage, activePersonId, setActivePersonIdToStorage} from "../data/persons";
 import albumsInitial, {setAlbumsToStorage} from '../data/albums'
 import photosInitial, {setPhotosToStorage} from '../data/photos'
+import postsInitial, {setPostsToStorage} from "../data/posts"
 
 
 import Navigation from "./Navigation";
@@ -23,7 +24,7 @@ const App = () => {
     const editPerson = person => {
         const newPersons = [...persons]
         const idx = newPersons.findIndex(p => p.id === person.id)
-        if ( idx === -1 ) return false
+        if (idx === -1) return false
         newPersons.splice(idx, 1, person)
         setPersons(newPersons)
         setPersonsToStorage(newPersons)
@@ -36,7 +37,7 @@ const App = () => {
 
     const getPersonById = (id) => {
         const idx = persons.findIndex(person => person.id === +id)
-        if ( idx === -1 ) {
+        if (idx === -1) {
             return null
         }
         return persons[idx]
@@ -47,14 +48,14 @@ const App = () => {
 
     const addNewAlbum = formData => {
         const newAlbums = [...albums, {...formData, id: Date.now()}]
-        setAlbums( newAlbums )
+        setAlbums(newAlbums)
         setAlbumsToStorage(newAlbums)
 
     }
 
     const getAlbumById = id => {
         const idx = albums.findIndex(album => album.id === id)
-        if ( idx === -1 ) {
+        if (idx === -1) {
             return null
         }
         return albums[idx]
@@ -67,6 +68,23 @@ const App = () => {
         setPhotos(newPhotos)
         setPhotosToStorage(newPhotos)
     }
+
+    const photoAction = (id, action) => {
+        const newPhotos = [...photos]
+        let idx = newPhotos.findIndex( p=>p.id === id)
+        if (idx ===-1) return null
+        newPhotos[idx][action]++
+        setPhotos(newPhotos)
+        setPhotosToStorage(newPhotos)
+    }
+
+    const [posts, setPosts] = useState(postsInitial);
+
+    const addNewPost = (formData) => {
+        const newPosts = [...posts, {...formData, id: Date.now(), datetime: Date.now()}]
+        setPosts(newPosts)
+        setPostsToStorage(newPosts)
+    };
 
 
     return (
@@ -81,10 +99,13 @@ const App = () => {
             addNewAlbum,
             getAlbumById,
             photos,
-            addNewPhoto
+            addNewPhoto,
+            photoAction,
+            posts,
+            addNewPost
         }}>
-            <Navigation />
-            <Pages />
+            <Navigation/>
+            <Pages/>
         </GlobalContext.Provider>
     )
 }
