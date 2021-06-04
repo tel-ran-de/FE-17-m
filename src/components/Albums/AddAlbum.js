@@ -1,8 +1,7 @@
-import React, {useContext, useState, useEffect} from "react"
-import {GlobalContext} from "../App"
+import React, {useState} from "react"
+import {connect} from "react-redux";
 
-const AddAlbum = ({onFinish}) => {
-    const {activePerson} = useContext(GlobalContext)
+const AddAlbum = ({onFinish, activePerson}) => {
     const [formData, setFormData] = useState({
         personId: activePerson,
         title: ''
@@ -29,5 +28,9 @@ const AddAlbum = ({onFinish}) => {
         </form>
     )
 }
-
-export default AddAlbum
+const mapStateToProps = state => {
+    return {
+        activePerson: state.persons.activePerson
+    }
+}
+export default connect(mapStateToProps, null)(AddAlbum)

@@ -89,11 +89,11 @@ const App = () => {
 
     return (
         <GlobalContext.Provider value={{
-            addPerson,
-            persons,
+            // addPerson,
+            // persons,
             getPersonById,
-            activePerson,
-            changeActivePerson,
+            // activePerson,
+            // changeActivePerson,
             editPerson,
             albums,
             addNewAlbum,

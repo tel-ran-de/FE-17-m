@@ -1,5 +1,6 @@
 import React, {Fragment, useContext, useEffect, useState} from "react"
 import {useParams} from 'react-router-dom'
+import {connect} from "react-redux"
 import {GlobalContext} from "../App"
 import AddAlbum from "../Albums/AddAlbum"
 import PersonalAlbums from "../Albums/PersonalAlbums"
@@ -7,10 +8,10 @@ import AddPost from "../Posts/AddPost"
 import PersonalBlog from "../Posts/PersonalBlog"
 
 
-const PersonProfile = () => {
+const PersonProfile = ({activePerson}) => {
 
     const {id} = useParams()
-    const {getPersonById, activePerson, editPerson, addNewAlbum, addNewPost} = useContext(GlobalContext)
+    const {getPersonById, editPerson, addNewAlbum, addNewPost} = useContext(GlobalContext)
     const [person, setPerson] = useState(null)
     const [editMode, setEditMode] = useState(false)
     const [addAlbum, setAddAlbum] = useState(false)
@@ -165,4 +166,16 @@ const PersonProfile = () => {
     )
 }
 
-export default PersonProfile
+const mapStateToProps = state => {
+    return {
+        activePerson: state.persons.activePerson
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PersonProfile)

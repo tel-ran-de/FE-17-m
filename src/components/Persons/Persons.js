@@ -1,9 +1,8 @@
-import React, {useContext} from "react"
-import {GlobalContext} from "../App";
+import React from "react"
+import {connect} from "react-redux"
 import PersonCard from "./PersonCard";
 
-const Persons = () => {
-    const {persons} = useContext(GlobalContext)
+const Persons = ({persons}) => {
 
     const renderPersons = () => {
         if ( !persons.length ) {
@@ -21,4 +20,10 @@ const Persons = () => {
     )
 }
 
-export default Persons
+const mapStateToProps = (state) => {
+    return {
+        persons: state.persons.list
+    }
+}
+
+export default connect(mapStateToProps, null)(Persons)

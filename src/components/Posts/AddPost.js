@@ -1,8 +1,8 @@
 import React, { useState, useContext } from "react";
 import { GlobalContext } from "../App";
+import {connect} from "react-redux";
 
-const AddPost = ({ onFinish }) => {
-    const { activePerson } = useContext(GlobalContext);
+const AddPost = ({ onFinish, activePerson }) => {
     const [formData, setFormData] = useState({
         personId: activePerson,
         title: "",
@@ -52,5 +52,9 @@ const AddPost = ({ onFinish }) => {
         </form>
     );
 };
-
-export default AddPost;
+const mapStateToProps = state => {
+    return {
+        activePerson: state.persons.activePerson
+    }
+}
+export default connect(mapStateToProps, null)(AddPost)
