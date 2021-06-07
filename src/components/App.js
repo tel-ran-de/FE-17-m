@@ -13,13 +13,6 @@ export const GlobalContext = React.createContext(null)
 const App = () => {
 
     const [persons, setPersons] = useState(personsInitial)
-    const [activePerson, setActivePerson] = useState(+activePersonId)
-
-    const addPerson = data => {
-        const newPersons = [...persons, {...data, id: Date.now()}]
-        setPersons(newPersons)
-        setPersonsToStorage(newPersons)
-    }
 
     const editPerson = person => {
         const newPersons = [...persons]
@@ -30,10 +23,6 @@ const App = () => {
         setPersonsToStorage(newPersons)
     }
 
-    const changeActivePerson = id => {
-        setActivePerson(+id)
-        setActivePersonIdToStorage(+id)
-    }
 
     const getPersonById = (id) => {
         const idx = persons.findIndex(person => person.id === +id)
@@ -89,11 +78,7 @@ const App = () => {
 
     return (
         <GlobalContext.Provider value={{
-            // addPerson,
-            // persons,
             getPersonById,
-            // activePerson,
-            // changeActivePerson,
             editPerson,
             albums,
             addNewAlbum,

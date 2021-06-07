@@ -143,6 +143,9 @@ const PersonProfile = ({activePerson}) => {
         if (addPost) {
             return <AddPost onFinish={addNewPostHandle} />;
         }
+        if (editMode) {
+            return null
+        }
 
         return (<div>
             <PersonalAlbums personId={+id}/>
@@ -168,7 +171,7 @@ const PersonProfile = ({activePerson}) => {
 
 const mapStateToProps = state => {
     return {
-        activePerson: state.persons.activePerson
+        activePerson: +state.persons.activePerson
     }
 }
 

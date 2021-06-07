@@ -1,4 +1,4 @@
-import {ADD_NEW_PERSON, CHANGE_ACTIVE_PERSON, FETCH_PERSONS} from "./typesList";
+import {ADD_NEW_PERSON, CHANGE_ACTIVE_PERSON, DELETE_PERSON, FETCH_PERSONS} from "./typesList";
 import {setPersonsToStorage} from "../data/persons";
 
 const stateInit = {
@@ -23,6 +23,13 @@ export const reducer = (state = stateInit, action) => {
 
         case CHANGE_ACTIVE_PERSON:
             return {...state, persons: {...state.persons, activePerson: action.payload}}
+
+        case DELETE_PERSON:
+            const idx = state.persons.list.findIndex(p=>p.id===action.payload)
+            if (idx === -1) return state
+            const _arr = [...state.persons.list]
+            _arr.splice(idx,1)
+            return { ...state, persons: {...state.persons, list: _arr } }
 
         default:
             return state

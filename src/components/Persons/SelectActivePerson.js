@@ -4,17 +4,10 @@ import {changeActivePersonId, getPersons} from "../../store/actions/persons";
 
 const SelectActivePerson = ({persons, activePerson, getPersonsObject, changeActivePerson}) => {
 
-    // useEffect(() => {
-    //     if ( !persons.length ) {
-    //         console.log(persons)
-    //         getPersonsObject()
-    //     }
-    // }, []);
-
     useEffect(() => {
         console.log(persons)
         getPersonsObject()
-    }, [persons]);
+    }, []);
 
 
     const changeSelectValue = event => {

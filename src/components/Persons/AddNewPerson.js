@@ -1,7 +1,6 @@
 import React, {useState} from 'react'
 import {connect} from 'react-redux'
 import {useHistory} from 'react-router-dom'
-import {ADD_NEW_PERSON} from "../../store/typesList";
 import {addNewPerson} from "../../store/actions/persons";
 
 const AddNewPerson = ({addPerson}) => {
