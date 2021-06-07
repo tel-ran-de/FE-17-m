@@ -2,8 +2,9 @@ import React, {useState} from 'react'
 import {connect} from 'react-redux'
 import {useHistory} from 'react-router-dom'
 import {ADD_NEW_PERSON} from "../../store/typesList";
+import {addNewPerson} from "../../store/actions/persons";
 
-const AddNewPerson = ({addNewPerson}) => {
+const AddNewPerson = ({addPerson}) => {
 
     const [formData, setFormData] = useState({
         fName: '',
@@ -24,7 +25,7 @@ const AddNewPerson = ({addNewPerson}) => {
 
     const submitHandle = event => {
         event.preventDefault()
-        addNewPerson(formData)
+        addPerson(formData)
         history.push('/persons')
     }
 
@@ -67,7 +68,7 @@ const AddNewPerson = ({addNewPerson}) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        addNewPerson: (person) => dispatch({type: ADD_NEW_PERSON, payload: person})
+        addPerson: (person) => dispatch( addNewPerson(person) )
     }
 }
 
