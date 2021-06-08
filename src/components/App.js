@@ -1,5 +1,7 @@
-import React, {useState} from 'react'
-import personsInitial, {setPersonsToStorage, activePersonId, setActivePersonIdToStorage} from "../data/persons";
+import React, {useState, useEffect} from 'react'
+
+import {connect} from "react-redux"
+
 import albumsInitial, {setAlbumsToStorage} from '../data/albums'
 import photosInitial, {setPhotosToStorage} from '../data/photos'
 import postsInitial, {setPostsToStorage} from "../data/posts"
@@ -7,22 +9,15 @@ import postsInitial, {setPostsToStorage} from "../data/posts"
 
 import Navigation from "./Navigation";
 import Pages from "../layouts/Pages";
+import {getPosts} from "../store/actions/posts";
 
 export const GlobalContext = React.createContext(null)
 
-const App = () => {
+const App = ({initPosts}) => {
 
-    const [persons, setPersons] = useState(personsInitial)
-
-
-    const getPersonById = (id) => {
-        const idx = persons.findIndex(person => person.id === +id)
-        if (idx === -1) {
-            return null
-        }
-        return persons[idx]
-    }
-
+    useEffect(()=>{
+        initPosts()
+    }, [])
 
     const [albums, setAlbums] = useState(albumsInitial)
 
@@ -58,26 +53,25 @@ const App = () => {
         setPhotosToStorage(newPhotos)
     }
 
-    const [posts, setPosts] = useState(postsInitial);
-
-    const addNewPost = (formData) => {
-        const newPosts = [...posts, {...formData, id: Date.now(), datetime: Date.now()}]
-        setPosts(newPosts)
-        setPostsToStorage(newPosts)
-    };
+    // const [posts, setPosts] = useState(postsInitial);
+    //
+    // const addNewPost = (formData) => {
+    //     const newPosts = [...posts, {...formData, id: Date.now(), datetime: Date.now()}]
+    //     setPosts(newPosts)
+    //     setPostsToStorage(newPosts)
+    // };
 
 
     return (
         <GlobalContext.Provider value={{
-            getPersonById,
             albums,
             addNewAlbum,
             getAlbumById,
             photos,
             addNewPhoto,
             photoAction,
-            posts,
-            addNewPost
+            // posts,
+            // addNewPost
         }}>
             <Navigation/>
             <Pages/>
@@ -85,4 +79,10 @@ const App = () => {
     )
 }
 
-export default App
+const mapDispatchToProps = dispatch => {
+    return {
+        initPosts: () => dispatch(getPosts())
+    }
+}
+
+export default connect(null, mapDispatchToProps)(App)

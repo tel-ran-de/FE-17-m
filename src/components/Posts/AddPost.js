@@ -1,8 +1,10 @@
 import React, { useState, useContext } from "react";
 import { GlobalContext } from "../App";
 import {connect} from "react-redux";
+import {CHANGE_ADD_POST} from "../../store/typesList";
+import {addPost} from "../../store/actions/posts";
 
-const AddPost = ({ onFinish, activePerson }) => {
+const AddPost = ({  activePerson, addLocalPost, setAddPostMode  }) => {
     const [formData, setFormData] = useState({
         personId: activePerson,
         title: "",
@@ -19,8 +21,10 @@ const AddPost = ({ onFinish, activePerson }) => {
 
     return (
         <form
-            onSubmit={() => {
-                onFinish(formData);
+            onSubmit={event => {
+                event.preventDefault()
+                addLocalPost(formData)
+                setAddPostMode()
             }}
         >
             <div className="form-group">
@@ -57,4 +61,11 @@ const mapStateToProps = state => {
         activePerson: state.persons.activePerson
     }
 }
-export default connect(mapStateToProps, null)(AddPost)
+
+const mapDispatchToProps = dispatch => {
+    return {
+        setAddPostMode: () => dispatch({type: CHANGE_ADD_POST}),
+        addLocalPost: post => dispatch(addPost(post))
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(AddPost)

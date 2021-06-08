@@ -8,17 +8,15 @@ import AddPost from "../Posts/AddPost"
 import PersonalBlog from "../Posts/PersonalBlog"
 import {editPerson, setPersonById} from "../../store/actions/persons";
 import EditPersonForm from "./EditPersonForm";
-import {CHANGE_EDIT_MODE} from "../../store/typesList";
+import {CHANGE_ADD_POST, CHANGE_EDIT_MODE} from "../../store/typesList";
 
 
-const PersonProfile = ({activePerson, editMode, setEditMode, setLocalPerson, person}) => {
+const PersonProfile = ({activePerson, editMode, setEditMode, setLocalPerson, person, addPostMode, setAddPostMode}) => {
 
     const {id} = useParams()
-    const {addNewAlbum, addNewPost} = useContext(GlobalContext)
-    // const [person, setPerson] = useState(null)
-    // const [editMode, setEditMode] = useState(false)
+    const {addNewAlbum} = useContext(GlobalContext)
     const [addAlbum, setAddAlbum] = useState(false)
-    const [addPost, setAddPost] = useState(false)
+
 
     useEffect(() => {
         setLocalPerson(+id)
@@ -70,7 +68,7 @@ const PersonProfile = ({activePerson, editMode, setEditMode, setLocalPerson, per
 
 
     const renderEditButton = () => {
-        if (activePerson !== person.id || editMode || addAlbum || addPost) return null
+        if (activePerson !== person.id || editMode || addAlbum || addPostMode) return null
         return (
             <div className="w-100">
                 <button onClick={editButtonHandle} className="w-100 btn btn-success my-2">Edit</button>
@@ -92,7 +90,7 @@ const PersonProfile = ({activePerson, editMode, setEditMode, setLocalPerson, per
 
     const addPostButtonHandle = event => {
         event.preventDefault()
-        setAddPost(true)
+        setAddPostMode()
     }
 
     const addNewAlbumHandle = formData => {
@@ -100,18 +98,13 @@ const PersonProfile = ({activePerson, editMode, setEditMode, setLocalPerson, per
         setAddAlbum(false)
     }
 
-    const addNewPostHandle = formData => {
-        addNewPost(formData)
-        setAddPost(false)
-    }
-
     const renderPersonInfo = () => {
 
         if (addAlbum) {
             return (<AddAlbum onFinish={addNewAlbumHandle}/>)
         }
-        if (addPost) {
-            return <AddPost onFinish={addNewPostHandle} />;
+        if (addPostMode) {
+            return <AddPost />;
         }
         if (editMode) {
             return null
@@ -143,7 +136,8 @@ const mapStateToProps = state => {
     return {
         activePerson: +state.persons.activePerson,
         person: state.persons.personById,
-        editMode: state.persons.editMode
+        editMode: state.persons.editMode,
+        addPostMode: state.posts.addPostMode
     }
 }
 
@@ -151,7 +145,8 @@ const mapDispatchToProps = dispatch => {
     return {
         editLocalPerson: person => dispatch(editPerson(person)),
         setLocalPerson: id => dispatch(setPersonById(id)),
-        setEditMode: () => dispatch({type: CHANGE_EDIT_MODE})
+        setEditMode: () => dispatch({type: CHANGE_EDIT_MODE}),
+        setAddPostMode: () => dispatch({type: CHANGE_ADD_POST})
     }
 }
 

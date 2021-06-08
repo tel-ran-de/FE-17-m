@@ -1,7 +1,8 @@
 import {createStore, applyMiddleware, compose} from "redux"
 import thunk from "redux-thunk"
 import logger from "redux-logger"
-import {reducer} from "./reducer"
+import RootReducer from "./reducers/RootReducer";
+import InitialState from "./initialState";
 
 const composeEnhancers =
     typeof window === 'object' &&
@@ -14,4 +15,4 @@ const enhancer = composeEnhancers(
     // other store enhancers if any
 );
 
-export const store = createStore(reducer, enhancer)
+export const store = createStore(RootReducer, InitialState, enhancer)

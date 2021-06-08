@@ -3,60 +3,79 @@ import {connect} from 'react-redux'
 import {useHistory} from 'react-router-dom'
 import {addNewPerson} from "../../store/actions/persons";
 
-const AddNewPerson = ({addPerson}) => {
+import {useForm} from "react-cool-form"
+import InputField from "../FormComponents/InputField";
 
-    const [formData, setFormData] = useState({
-        fName: '',
-        lName: '',
-        age: '',
-        email: '',
-        phone: '',
-        avatar: ''
-    })
+const AddNewPerson = ({addPerson}) => {
 
     let history = useHistory()
 
-    const changeFieldHandle = event => {
-        setFormData({
-            ...formData, [event.target.name]: event.target.value
-        })
-    }
+    const { form, use } = useForm({
+        defaultValues: {fName: '', lName: '', age: '', email: '', phone: '', avatar: '' },
+        onSubmit: (values) => submitHandle(values),
+    });
 
-    const submitHandle = event => {
-        event.preventDefault()
-        addPerson(formData)
+    const submitHandle = values => {
+        console.log( values )
+        addPerson(values)
         history.push('/persons')
     }
+
+    const errors = use("errors", { errorWithTouched: true })
 
     return (
         <div className="container">
             <div className="w-50 mx-auto">
-                <form onSubmit={submitHandle}>
-                    <div className="form-group">
-                        <label>First Name</label>
-                        <input type="text" className="form-control" name="fName" onChange={changeFieldHandle}/>
-                    </div>
-                    <div className="form-group">
-                        <label>Last Name</label>
-                        <input type="text" className="form-control" name="lName" onChange={changeFieldHandle}/>
-                    </div>
-                    <div className="form-group">
-                        <label>Age</label>
-                        <input type="text" className="form-control" name="age" onChange={changeFieldHandle}/>
-                    </div>
-                    <div className="form-group">
-                        <label>Email</label>
-                        <input type="text" className="form-control" name="email" onChange={changeFieldHandle}/>
-                    </div>
-                    <div className="form-group">
-                        <label>Phone</label>
-                        <input type="text" className="form-control" name="phone" onChange={changeFieldHandle}/>
-                    </div>
-                    <div className="form-group mb-2">
-                        <label>Avatar</label>
-                        <input type="text" className="form-control" name="avatar" onChange={changeFieldHandle}/>
-                    </div>
-                    <div className="form-group">
+                <form ref={form} noValidate>
+                    <InputField
+                        type="text"
+                        name="fName"
+                        id="fName"
+                        label="First Name"
+                        required
+                        error={errors.fName}
+                    />
+                    <InputField
+                        type="text"
+                        name="lName"
+                        id="lName"
+                        label="Last Name"
+                        required
+                        error={errors.lName}
+                    />
+                    <InputField
+                        type="text"
+                        name="age"
+                        id="age"
+                        label="Age"
+                        required
+                        error={errors.age}
+                    />
+                    <InputField
+                        type="email"
+                        name="email"
+                        id="email"
+                        label="Email"
+                        required
+                        error={errors.email}
+                    />
+                    <InputField
+                        type="text"
+                        name="phone"
+                        id="phone"
+                        label="Phone"
+                        required
+                        error={errors.phone}
+                    />
+                    <InputField
+                        type="text"
+                        name="avatar"
+                        id="avatar"
+                        label="Avatar"
+                        required
+                        error={errors.avatar}
+                    />
+                    <div className="form-group mt-3">
                         <button type="submit" className="btn btn-primary w-100">Add</button>
                     </div>
                 </form>
