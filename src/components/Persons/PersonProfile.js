@@ -6,20 +6,28 @@ import AddAlbum from "../Albums/AddAlbum"
 import PersonalAlbums from "../Albums/PersonalAlbums"
 import AddPost from "../Posts/AddPost"
 import PersonalBlog from "../Posts/PersonalBlog"
+import {editPerson, setPersonById} from "../../store/actions/persons";
+import EditPersonForm from "./EditPersonForm";
+import {CHANGE_EDIT_MODE} from "../../store/typesList";
 
 
-const PersonProfile = ({activePerson}) => {
+const PersonProfile = ({activePerson, editMode, setEditMode, setLocalPerson, person}) => {
 
     const {id} = useParams()
-    const {getPersonById, editPerson, addNewAlbum, addNewPost} = useContext(GlobalContext)
-    const [person, setPerson] = useState(null)
-    const [editMode, setEditMode] = useState(false)
+    const {addNewAlbum, addNewPost} = useContext(GlobalContext)
+    // const [person, setPerson] = useState(null)
+    // const [editMode, setEditMode] = useState(false)
     const [addAlbum, setAddAlbum] = useState(false)
     const [addPost, setAddPost] = useState(false)
 
     useEffect(() => {
-        setPerson(getPersonById(id))
+        setLocalPerson(+id)
     }, []);
+
+    useEffect(() => {
+        setLocalPerson(+id)
+    }, [editMode]);
+
 
     const renderProfile = () => {
         if (!person) return false
@@ -33,45 +41,11 @@ const PersonProfile = ({activePerson}) => {
         )
     }
 
-    const changeFieldHandle = (event) => {
-        setPerson({...person, [event.target.name]: event.target.value})
-    }
+
 
     const renderForm = () => {
         return (
-            <form onSubmit={submitFormHandle}>
-                <div className="form-group">
-                    <label>First Name</label>
-                    <input type="text" className="form-control" value={person.fName} name="fName"
-                           onChange={changeFieldHandle}/>
-                </div>
-                <div className="form-group">
-                    <label>Last Name</label>
-                    <input type="text" className="form-control" value={person.lName} name="lName"
-                           onChange={changeFieldHandle}/>
-                </div>
-                <div className="form-group">
-                    <label>Age</label>
-                    <input type="text" className="form-control" value={person.age} name="age"
-                           onChange={changeFieldHandle}/>
-                </div>
-                <div className="form-group">
-                    <label>Email</label>
-                    <input type="text" className="form-control" value={person.email} name="email"
-                           onChange={changeFieldHandle}/>
-                </div>
-                <div className="form-group">
-                    <label>Phone</label>
-                    <input type="text" className="form-control" value={person.phone} name="phone"
-                           onChange={changeFieldHandle}/>
-                </div>
-                <div className="form-group mb-2">
-                    <label>Avatar</label>
-                    <input type="text" className="form-control" value={person.avatar} name="avatar"
-                           onChange={changeFieldHandle}/>
-                </div>
-                <button type="submit">Save Change</button>
-            </form>
+            <EditPersonForm person={person} />
         )
     }
 
@@ -93,11 +67,7 @@ const PersonProfile = ({activePerson}) => {
         )
     }
 
-    const submitFormHandle = event => {
-        event.preventDefault()
-        editPerson(person)
-        setEditMode(false)
-    }
+
 
     const renderEditButton = () => {
         if (activePerson !== person.id || editMode || addAlbum || addPost) return null
@@ -112,7 +82,7 @@ const PersonProfile = ({activePerson}) => {
 
     const editButtonHandle = event => {
         event.preventDefault()
-        setEditMode(true)
+        setEditMode()
     }
 
     const addAlbumButtonHandle = event => {
@@ -171,13 +141,17 @@ const PersonProfile = ({activePerson}) => {
 
 const mapStateToProps = state => {
     return {
-        activePerson: +state.persons.activePerson
+        activePerson: +state.persons.activePerson,
+        person: state.persons.personById,
+        editMode: state.persons.editMode
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-
+        editLocalPerson: person => dispatch(editPerson(person)),
+        setLocalPerson: id => dispatch(setPersonById(id)),
+        setEditMode: () => dispatch({type: CHANGE_EDIT_MODE})
     }
 }
 
