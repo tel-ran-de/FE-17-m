@@ -1,21 +1,20 @@
 import React from 'react'
+import Form from "./components/Form";
+import ToDoList from "./components/ToDoList";
+import {Container} from "@material-ui/core";
 
 function App() {
-  return (
-    <div className="App">
-        <section id="form">
-            <form>
-                <input type="text" name="" id=""/>
-                <button>Add</button>
-            </form>
-        </section>
-        <section id="list">
-            <ul>
-                <li>To-Do Item <span>Actions(complete, delete)</span></li>
-            </ul>
-        </section>
-    </div>
-  );
+    return (
+        <Container maxWidth="md" className="main-container" >
+            <h2 className="text-center">ToDo List Application</h2>
+            <section id="form">
+                <Form/>
+            </section>
+            <section id="list">
+                <ToDoList />
+            </section>
+        </Container>
+    );
 }
 
 export default App;
