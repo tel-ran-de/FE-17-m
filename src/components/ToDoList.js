@@ -11,7 +11,6 @@ const ToDoList = ({todos}) => {
     return (
         <ul className="list-group">
             {todos.map(t=> {
-                console.log( t )
                 return (<ToDoItem key={t.id} todo={t}/>)
             })}
         </ul>
