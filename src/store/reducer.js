@@ -17,7 +17,7 @@ export const reducer = (state = initialState, action) => {
             idx = _arr.findIndex(t=>t.id===action.payload)
             if ( idx === -1 ) return state
             _arr[idx].completed = !_arr[idx].completed
-            return {...state, todos: [..._arr]}
+            return {...state, todos: _arr}
 
         case DELETE_ITEM:
             _arr = [...state.todos]

@@ -1,12 +1,19 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import {connect} from 'react-redux'
 import ToDoItem from "./ToDoItem";
 
 const ToDoList = ({todos}) => {
 
+    useEffect(() => {
+    }, [todos]);
+
+
     return (
-        <ul>
-            {todos.map(t=><ToDoItem key={t.id} todo={t} />)}
+        <ul className="list-group">
+            {todos.map(t=> {
+                console.log( t )
+                return (<ToDoItem key={t.id} todo={t}/>)
+            })}
         </ul>
     )
 }

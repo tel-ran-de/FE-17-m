@@ -8,25 +8,25 @@ const Form = ({addToDoItem}) => {
 
     const {form, use} = useForm({
         defaultValues: {title: '', completed: false},
-        onSubmit: values => {
+        onSubmit: (values, {reset}) => {
             values.id = Date.now()
             addToDoItem(values)
+            reset()
         }
     })
 
     const errors = use("errors")
 
     return (
-        <form ref={form} noValidate>
+        <form ref={form} className="w-50 mx-auto" noValidate>
             <Field
-                label="New Item"
+                label="Enter New Item"
                 name="title"
                 id="title"
                 type="text"
                 required
                 error={errors.title}
             />
-            <button>Add</button>
         </form>
     )
 }
