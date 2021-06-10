@@ -9,6 +9,7 @@ const Form = ({addToDoItem}) => {
     const {form, use} = useForm({
         defaultValues: {title: '', completed: false},
         onSubmit: (values, {reset}) => {
+            values.order = Date.now()
             addToDoItem(values)
             reset()
         }

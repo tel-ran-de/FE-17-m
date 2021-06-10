@@ -21,7 +21,7 @@ const ToDoList = ({todos, getTodos}) => {
 
 const mapStateToProps = state => {
     return {
-        todos: state.todos
+        todos: state.todos.sort((a, b) => a.order-b.order)
     }
 }
 
