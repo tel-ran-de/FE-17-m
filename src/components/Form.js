@@ -9,7 +9,6 @@ const Form = ({addToDoItem}) => {
     const {form, use} = useForm({
         defaultValues: {title: '', completed: false},
         onSubmit: (values, {reset}) => {
-            values.id = Date.now()
             addToDoItem(values)
             reset()
         }

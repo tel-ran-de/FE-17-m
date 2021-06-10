@@ -1,4 +1,4 @@
-import {ADD_NEW_ITEM, CHANGE_ITEM_STATUS, DELETE_ITEM} from "./typesList";
+import {ADD_NEW_ITEM, CHANGE_ITEM_STATUS, DELETE_ITEM, FETCH_DATA} from "./typesList";
 
 const initialState = {
     todos: []
@@ -8,6 +8,8 @@ let _arr, idx
 
 export const reducer = (state = initialState, action) => {
     switch (action.type) {
+        case FETCH_DATA:
+            return {...state, todos: [...action.payload]}
 
         case ADD_NEW_ITEM:
             return {...state, todos: [...state.todos, action.payload]}
