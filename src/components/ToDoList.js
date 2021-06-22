@@ -1,11 +1,13 @@
 import React, {useEffect} from 'react'
 import {connect} from 'react-redux'
 import ToDoItem from "./ToDoItem";
+import {getTodo} from "../store/actions";
 
-const ToDoList = ({todos}) => {
+const ToDoList = ({todos, fetchData}) => {
 
     useEffect(() => {
-    }, [todos]);
+        fetchData()
+    }, []);
 
 
     return (
@@ -17,10 +19,16 @@ const ToDoList = ({todos}) => {
     )
 }
 
+const mapDispatchToProps = dispatch => {
+    return {
+        fetchData: () => dispatch(getTodo())
+    }
+}
+
 const mapStateToProps = state => {
     return {
         todos: state.todos
     }
 }
 
-export default connect(mapStateToProps, null)(ToDoList)
+export default connect(mapStateToProps, mapDispatchToProps)(ToDoList)

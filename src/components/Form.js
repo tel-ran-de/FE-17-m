@@ -7,9 +7,8 @@ import {addToDo} from "../store/actions";
 const Form = ({addToDoItem}) => {
 
     const {form, use} = useForm({
-        defaultValues: {title: '', completed: false},
+        defaultValues: {title: ''},
         onSubmit: (values, {reset}) => {
-            values.id = Date.now()
             addToDoItem(values)
             reset()
         }
